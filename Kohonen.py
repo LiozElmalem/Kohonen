@@ -5,12 +5,12 @@ import random
 import matplotlib.pyplot as plt
 
 class Kohonen:
-    def __init__(self , alpha , No , start , end , radius , propartional , topology):
+    def __init__(self , alpha , No , start , end , radius , propartional=False , topology='line'):
         if topology == 'line':
             self.neurons = generate_line(No , start , end , propartional)
         elif topology == 'circle':
             self.neurons = generate_circle((0,0) , No , 1 , propartional)     
-        elif topology == '5_on_5':
+        elif topology == '5 * 5':
             self.neurons = generate_5_5(2 , propartional)
         self.alpha = alpha
         self.radius = radius
@@ -67,11 +67,11 @@ def draw(neurons , data , rand_chosen , bmu , i):
 def euclidean_dist(chosen , neuron):
     return np.sqrt((chosen[0] - neuron[0])**2 + (chosen[1] - neuron[1])**2)
 
-def generate_circle(center, num_points, radius , range_=None ,propartional=False):
+def generate_circle(center, num_points, radius , range_=False ,propartional=False):
     arc = (2 * math.pi) / num_points # what is the angle between two of the points
     points = []
     if range_:
-        radius = random.choice(range_)
+        radius = random.choice(np.arange(2.1,4,0.1))
     for p in range(num_points):
         px = (0 * math.cos(arc * p)) - (radius * math.sin(arc * p))
         py = (radius * math.cos(arc * p)) + (0 * math.sin(arc * p))
@@ -133,9 +133,118 @@ def generate_5_5(density, propartional=False):
     return points
 
 def main():
-    net = Kohonen(0.5 , 30 , -2 , 2 , 2 , True , topology='line')
-    circle = generate_circle((0,0) , 60 , 3 , np.arange(2.1,3.9,0.1))
-    net.train(circle , 5000)
+    choice = input("Please choose Q from (A - E) : ") 
+    if choice == 'A':
+        # A
+        # 5000 iterations
+        # Alpha = 0.5
+        # 30 data items
+        # Values in range(-2,2)
+        # Radius = 2
+        # Neurons line topology  
+        net = Kohonen(0.5 , 30 , -2 , 2 , 2 , topology='line')
+        circle = generate_circle((0,0) , 60 , 2)
+        net.train(circle , 5000)
+        # 2500 iterations
+        # Alpha = 0.5
+        # 30 data items
+        # Values in range(-2,2)
+        # Radius = 2
+        # Neurons line topology  
+        net = Kohonen(0.5 , 30 , -2 , 2 , 2 , topology='line')
+        circle = generate_circle((0,0) , 60 , 2)
+        net.train(circle , 2500)
+        # 1000 iterations
+        # Alpha = 0.5
+        # 30 data items
+        # Values in range(-2,2)
+        # Radius = 2
+        # Neurons line topology  
+        net = Kohonen(0.5 , 30 , -2 , 2 , 2 , topology='line')
+        circle = generate_circle((0,0) , 60 , 2)
+        net.train(circle , 1000)
+    elif choice == 'B':
+        # B
+        # 5000 iterations
+        # Alpha = 0.5
+        # 30 data items
+        # Values in range(-2,2)
+        # Radius = 2
+        # Neurons circle topology 
+        net = Kohonen(0.5 , 30 , -2 , 2 , 2 , topology='circle')
+        circle = generate_circle((0,0) , 60 , 2)
+        net.train(circle , 5000)
+        # 2500 iterations
+        # Alpha = 0.5
+        # 30 data items
+        # Values in range(-2,2)
+        # Radius = 2
+        # Neurons circle topology 
+        net = Kohonen(0.5 , 30 , -2 , 2 , 2 , topology='circle')
+        circle = generate_circle((0,0) , 60 , 2)
+        net.train(circle , 2500)
+        # 1000 iterations
+        # Alpha = 0.5
+        # 30 data items
+        # Values in range(-2,2)
+        # Radius = 2
+        # Neurons circle topology 
+        net = Kohonen(0.5 , 30 , -2 , 2 , 2 , topology='circle')
+        circle = generate_circle((0,0) , 60 , 2)
+        net.train(circle , 1000)
+    elif choice == 'C':
+        # C
+        # 5000 iterations
+        # Alpha = 0.5
+        # 25 data items
+        # Values in range(-2,2)
+        # Radius = 2
+        # Neurons 5 * 5 topology
+        net = Kohonen(0.5 , 25 , -2 , 2 , 2 , topology='5 * 5')
+        circle = generate_circle((0,0) , 60 , 2)
+        net.train(circle , 5000)
+        # 2500 iterations
+        # Alpha = 0.5
+        # 25 data items
+        # Values in range(-2,2)
+        # Radius = 2
+        # Neurons 5 * 5 topology
+        net = Kohonen(0.5 , 25 , -2 , 2 , 2 , topology='5 * 5')
+        circle = generate_circle((0,0) , 60 , 2)
+        net.train(circle , 2500)
+        # 1000 iterations
+        # Alpha = 0.5
+        # 25 data items
+        # Values in range(-2,2)
+        # Radius = 2
+        # Neurons 5 * 5 topology
+        net = Kohonen(0.5 , 25 , -2 , 2 , 2 , topology='5 * 5')
+        circle = generate_circle((0,0) , 60 , 2)
+        net.train(circle , 1000)
+    elif choice == 'D':
+        # D
+        # 5000 iterations with propartional distance from the center to line topology
+        net = Kohonen(0.5 , 30 , -2 , 2 , 2 , propartional=True ,  topology='line')
+        circle = generate_circle((0,0) , 60 , 2)
+        net.train(circle , 5000)
+        # 5000 iterations with propartional distance from the center to circle topology
+        net = Kohonen(0.5 , 30 , -2 , 2 , 2 , propartional=True ,  topology='circle')
+        circle = generate_circle((0,0) , 60 , 2)
+        net.train(circle , 5000)
+        # 5000 iterations with propartional distance from the center to 5 * 5 topology
+        net = Kohonen(0.5 , 30 , -2 , 2 , 2 , propartional=True ,  topology='5 * 5')
+        circle = generate_circle((0,0) , 60 , 2)
+        net.train(circle , 5000)
+    elif choice == 'E':
+        # E 
+        # for A
+        net = Kohonen(0.5 , 30 , -2 , 2 , 2 , topology='line')
+        circle = generate_circle((0,0) , 60 , 3 , True)
+        net.train(circle , 5000)
+        # for B
+        net = Kohonen(0.5 , 30 , -2 , 2 , 2 , topology='circle')
+        circle = generate_circle((0,0) , 60 , 3 , True)
+        net.train(circle , 5000)
 
 if __name__ == '__main__':
     main()
