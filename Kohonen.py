@@ -133,7 +133,7 @@ def generate_5_5(density, propartional=False):
     return points
 
 def main():
-    choice = input("Please choose Q from (A - E) : ") 
+    choice = input("Please choose question solver from (A - E) : ") 
     if choice == 'A':
         # A
         # 5000 iterations
@@ -238,13 +238,16 @@ def main():
     elif choice == 'E':
         # E 
         # for A
-        net = Kohonen(0.5 , 30 , -2 , 2 , 2 , topology='line')
-        circle = generate_circle((0,0) , 60 , 3 , True)
+        net = Kohonen(0.5 , 100 , -2 , 2 , 2 , topology='line')
+        circle = generate_circle((0,0) , 60 , 3 , range_=True)
         net.train(circle , 5000)
         # for B
-        net = Kohonen(0.5 , 30 , -2 , 2 , 2 , topology='circle')
-        circle = generate_circle((0,0) , 60 , 3 , True)
+        net = Kohonen(0.5 , 100 , -2 , 2 , 2 , topology='circle')
+        circle = generate_circle((0,0) , 60 , 3 , range_=True)
         net.train(circle , 5000)
+    else :
+        print('Wrong input , please try again')
+        main()
 
 if __name__ == '__main__':
     main()
