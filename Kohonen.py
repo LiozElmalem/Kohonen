@@ -49,7 +49,7 @@ class Kohonen:
             self.update_neighbors(rand_chosen , bmu)
             self.alpha = init_alpha * np.exp(- i / iterations)
             self.radius = init_radius * np.exp(- i / iterations)
-            if i % 100 == 0:
+            if i % 1000 == 0:
                 draw(self.neurons , data , rand_chosen , bmu , i)
             i += 1
 
@@ -67,9 +67,11 @@ def draw(neurons , data , rand_chosen , bmu , i):
 def euclidean_dist(chosen , neuron):
     return np.sqrt((chosen[0] - neuron[0])**2 + (chosen[1] - neuron[1])**2)
 
-def generate_circle(center, num_points, radius , propartional = False):
+def generate_circle(center, num_points, radius , range_=None ,propartional=False):
     arc = (2 * math.pi) / num_points # what is the angle between two of the points
     points = []
+    if range_:
+        radius = random.choice(range_)
     for p in range(num_points):
         px = (0 * math.cos(arc * p)) - (radius * math.sin(arc * p))
         py = (radius * math.cos(arc * p)) + (0 * math.sin(arc * p))
@@ -82,7 +84,7 @@ def generate_circle(center, num_points, radius , propartional = False):
             points[i][1] -= 0.5
     return points
 
-def generate_line(No , start , end, propartional = False):
+def generate_line(No , start , end, propartional=False):
     neurons = []
     neurons_X = np.random.uniform(low=start, high=end, size=No)
     neurons_Y = [0] * No
@@ -93,7 +95,7 @@ def generate_line(No , start , end, propartional = False):
         neurons.append([i,j])
     return neurons
 
-def generate_5_5(density, propartional = False):
+def generate_5_5(density, propartional=False):
     points = []
     points.append([-2,-2])
     points.append([-2,-1])
@@ -132,8 +134,8 @@ def generate_5_5(density, propartional = False):
 
 def main():
     net = Kohonen(0.5 , 30 , -2 , 2 , 2 , True , topology='line')
-    circle = generate_circle((0,0) , 30 , 2)
-    net.train(circle , 1000)
+    circle = generate_circle((0,0) , 60 , 3 , np.arange(2.1,3.9,0.1))
+    net.train(circle , 5000)
 
 if __name__ == '__main__':
     main()
